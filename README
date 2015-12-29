@@ -1,0 +1,24 @@
+require php5-curl and zabbix_sender
+
+clone netatmo PHP api
+#$ git clone https://github.com/Netatmo/Netatmo-API-PHP.git
+#$ mv netatmo.php Netatmo-API-PHP-2.0/
+
+configure Netatmo-API-PHP-2.0/netatmo.php :
+$config['client_id'] = "client-id-from-dev.netatmo.com";
+$config['client_secret'] = "client-secret-from-dev.netatmo.com";
+$username = "your-netatmo-login";
+$pwd = "your-netatmo-password";
+
+run it :
+#$ php Netatmo-API-PHP-2.0/netatmo.php data
+
+Note that this script wont work if your netatmo station name or if any of your netatmo module have a space in its name
+
+Your main netatmo station will be called "main"
+netatmo.StationName.main
+All other netatmo module will be given their own name
+netatmo.StationName.ModuleName
+
+Use crontab + zabbix-sender to send data to your zabbix server
+/usr/bin/php /path/to/Netatmo-API-PHP-2.0/netatmo.php data | zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -i - > /dev/null
