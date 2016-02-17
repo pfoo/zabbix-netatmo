@@ -25,7 +25,7 @@ try
 }
 catch(Netatmo\Exceptions\NAClientException $ex)
 {
-    echo "An error occcured while trying to retrive your tokens \n";
+    echo "An error occcured while trying to retrieve your tokens \n";
 }
 
 $data = $client->getData(NULL, TRUE);

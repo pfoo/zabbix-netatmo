@@ -2,16 +2,16 @@ require php5-curl and zabbix_sender
 
 clone netatmo PHP api
 #$ git clone https://github.com/Netatmo/Netatmo-API-PHP.git
-#$ mv netatmo.php Netatmo-API-PHP-2.0/
+#$ mv netatmo.php Netatmo-API-PHP/
 
-configure Netatmo-API-PHP-2.0/netatmo.php :
+configure Netatmo-API-PHP/netatmo.php :
 $config['client_id'] = "client-id-from-dev.netatmo.com";
 $config['client_secret'] = "client-secret-from-dev.netatmo.com";
 $username = "your-netatmo-login";
 $pwd = "your-netatmo-password";
 
 run it :
-#$ php Netatmo-API-PHP-2.0/netatmo.php data
+#$ php Netatmo-API-PHP/netatmo.php data
 
 Note that this script wont work if your netatmo station name or if any of your netatmo module have a space in its name
 
@@ -27,4 +27,4 @@ Use zabbix_sender to provide firsts data to your server
 "failed" number should be 0. If otherwise, check your zabbix item configuration
 
 Use crontab + zabbix-sender to send data to your zabbix server
-/usr/bin/php /path/to/Netatmo-API-PHP-2.0/netatmo.php data | zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -i - > /dev/null
+/usr/bin/php /path/to/Netatmo-API-PHP/netatmo.php data | zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -i - > /dev/null
