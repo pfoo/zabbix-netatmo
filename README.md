@@ -23,7 +23,7 @@ $pwd = "your-netatmo-password";
 run it in order to see which items are generated :
 ```
 #$ php Netatmo-API-PHP/netatmo.php data
-```zabbix-netatmo:
+```
 
 Note that this script wont work if your netatmo station name or if any of your netatmo module have a space in its name
 
