@@ -6,13 +6,13 @@ Should work with python 2.x or 3.x
 Requires python-requests and python-six
 
 Rename config.ini.example as config.ini and edit variables in the [main] section :
-	device_id = Your device id (see below)
-	username = your netatmo login (email address)
-	password = your netatmo password
-	client_id = a client id generated on https://dev.netatmo.com/
-	client_secret = the correspondant client secret generated on https://dev.netatmo.com/
+* device_id = Your device id (see below)
+* username = your netatmo login (email address)
+* password = your netatmo password
+* client_id = a client id generated on https://dev.netatmo.com/
+* client_secret = the correspondant client secret generated on https://dev.netatmo.com/
 
-On first use, you need to initialize your tokens using the grant.py script :
+On first use, you will need to initialize your tokens using the grant.py script :
 ```
 #$ python grant.py
 ```
