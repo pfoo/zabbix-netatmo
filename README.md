@@ -1,15 +1,15 @@
 # zabbix-netatmo
 
-##
+## python/
 
-## netatmo.php
+## php/netatmo.php
 
 require php5-curl and zabbix_sender
 
 clone netatmo PHP api and place netatmo.php inside the cloned directory :
 ```
 #$ git clone https://github.com/Netatmo/Netatmo-API-PHP.git
-#$ mv netatmo.php Netatmo-API-PHP/
+#$ mv php/netatmo.php Netatmo-API-PHP/
 ```
 
 configure Netatmo-API-PHP/netatmo.php :
