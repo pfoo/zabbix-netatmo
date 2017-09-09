@@ -42,6 +42,7 @@ To find your Device ID, navigate to the netatmo dashboard (https://my.netatmo.co
 
 * items discovery
 * zabbix template for discovery
+* wind gauge and rain gauge support (I do not have those modules)
 
 ## php version (deprecated, ugly)
 
