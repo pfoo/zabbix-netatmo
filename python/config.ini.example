@@ -1,0 +1,12 @@
+[main]
+device_id = 93:bb:22:18:8e:b3
+username = you@domain.tld
+password = yourpass
+client_id = yourclientid
+client_secret = yourclientsecret
+
+[token]
+access_token = auto
+refresh_token = auto
+token_expires = 10800
+last_renewed = 2000-01-01 00:00:00.000000
