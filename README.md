@@ -1,8 +1,49 @@
 # zabbix-netatmo
 
-## python/
+## python version
 
-## php/netatmo.php
+Should work with python 2.x or 3.x
+Requires python-requests and python-six
+
+Rename config.ini.example as config.ini and edit variables in the [main] section :
+	device_id = Your device id (see below)
+	username = your netatmo login (email address)
+	password = your netatmo password
+	client_id = a client id generated on https://dev.netatmo.com/
+	client_secret = the correspondant client secret generated on https://dev.netatmo.com/
+
+On first use, you need to initialize your tokens using the grant.py script :
+```
+#$ python grant.py
+```
+
+You can then try the main script in order to see which items are generated (discovery function is in todo-list):
+```
+#$ python netatmo.py
+```
+
+In order to send those data to your zabbix instance, you need to have a properly configured zabbix agent configuration file and zabbix_sender binary intalled (debian package zabbix-sender)
+```
+#$ python netatmo.py | zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -i -
+```
+"failed" number should be 0. If otherwise, check your zabbix items configuration
+
+
+If everything is working accordingly, use your system crontab to send data automatically to your zabbix server on a regular basis :
+```
+*/5  * * * * python /path/to/netatmo.py | zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -i - > /dev/null
+```
+
+### Obtaining your Device ID
+
+To find your Device ID, navigate to the netatmo dashboard (https://my.netatmo.com/app/station) and select the settings icon (gear icon on the top right) and scroll down until you find the main Indoor Module (the one which have wifi signal info). The device ID is this module MAC Address. It should have the pattern 00:00:00:00:00:00, with letters or numbers in each two-character set.
+
+### Todo
+
+* items discovery
+* zabbix template for discovery
+
+## php version (deprecated, ugly)
 
 require php5-curl and zabbix_sender
 
