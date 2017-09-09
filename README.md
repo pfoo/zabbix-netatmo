@@ -2,7 +2,7 @@
 
 ## python version
 
-Should work with python 2.x or 3.x
+Should work with python 2.7 or 3.x
 Requires python-requests and python-six
 
 Rename config.ini.example as config.ini and edit variables in the [main] section :
