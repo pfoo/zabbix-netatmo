@@ -5,6 +5,8 @@
 Should work with python 2.7 or 3.x
 Requires python-requests and python-six
 
+Note : netatmo_standalone.py is the legacy and deprecated version which wont support items discovery
+
 Rename config.ini.example as config.ini and edit variables in the [main] section :
 * device_id = Your device id (see below)
 * username = your netatmo login (email address)
