@@ -45,6 +45,7 @@ To find your Device ID, navigate to the netatmo dashboard (https://my.netatmo.co
 * items discovery
 * zabbix template for discovery
 * wind gauge and rain gauge support (I do not have those modules)
+* value mapping for wifi_status, rf_status, battery_status as per https://dev.netatmo.com/en-US/resources/technical/reference/weatherstation and https://dev.netatmo.com/en-US/resources/technical/reference/weatherstation/getstationsdata (waiting for https://support.zabbix.com/browse/ZBXNEXT-114)
 
 ## php version (deprecated, ugly)
 
