@@ -44,10 +44,16 @@ try:
       configfile.close()
 
   #POST request and get json in response
-  payload = {
-    'access_token': Config.get('token', 'access_token'),
-    'device_id': Config.get('main', 'device_id')
-  }
+  device_id = Config.get('main', 'device_id')
+  if device_id:
+    payload = {
+      'access_token': Config.get('token', 'access_token'),
+      'device_id': device_id
+    }
+  if not device_id:
+    payload = {
+      'access_token': Config.get('token', 'access_token'),
+    }
   response = requests.post('https://api.netatmo.com/api/getstationsdata', data=payload)
   response.raise_for_status()
   data = response.json()['body']
