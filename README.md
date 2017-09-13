@@ -14,18 +14,22 @@ Rename config.ini.example as config.ini and edit variables in the [main] section
 * client_id = a client id generated on https://dev.netatmo.com/
 * client_secret = the correspondant client secret generated on https://dev.netatmo.com/
 
+Import the template into your zabbix instance, and add it to the desired host.
+
 On first use, you will need to initialize your tokens using the grant.py script :
 ```
 #$ python grant.py
 ```
 
-You can then try the main script in order to see which items are generated (discovery function is in todo-list):
+You can then try the main script in order to see which items are generated:
 ```
 #$ python netatmo.py
 ```
 
 In order to send those data to your zabbix instance, you need to have a properly configured zabbix agent configuration file and zabbix_sender binary intalled (debian package zabbix-sender)
 ```
+#$ python netatmo.py discovery | zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -i -
+#$ #wait a minute or so, zabbix sometime takes times before creating every discovered items
 #$ python netatmo.py | zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -i -
 ```
 "failed" number should be 0. If otherwise, check your zabbix items configuration
@@ -33,6 +37,7 @@ In order to send those data to your zabbix instance, you need to have a properly
 
 If everything is working accordingly, use your system crontab to send data automatically to your zabbix server on a regular basis :
 ```
+0    4 * * * python /path/to/netatmo.py discovery | zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -i - > /dev/null
 */5  * * * * python /path/to/netatmo.py | zabbix_sender -c /etc/zabbix/zabbix_agentd.conf -i - > /dev/null
 ```
 
@@ -42,9 +47,6 @@ To find your Device ID, navigate to the netatmo dashboard (https://my.netatmo.co
 
 ### Todo
 
-* items discovery
-* zabbix template for discovery
-* wind gauge and rain gauge support (I do not have those modules)
 * value mapping for wifi_status, rf_status, battery_status as per https://dev.netatmo.com/en-US/resources/technical/reference/weatherstation and https://dev.netatmo.com/en-US/resources/technical/reference/weatherstation/getstationsdata (waiting for https://support.zabbix.com/browse/ZBXNEXT-114)
 
 ## php version (deprecated, ugly)
