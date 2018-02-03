@@ -14,7 +14,7 @@ Rename config.ini.example as config.ini and edit variables in the [main] section
 
 Import the template into your zabbix instance, and add it to the desired host.
 
-On first use, you will need to initialize your tokens using the grant.py script :
+On first use, you will need to initialize your tokens using the grant.py script (this will also prompts you for your netatmo username and password) :
 ```
 #$ python grant.py
 ```
