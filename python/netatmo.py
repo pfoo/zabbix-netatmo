@@ -79,18 +79,32 @@ try:
   #Parse json for trappers metrics recovery and format them for zabbix-sender
   if not sys.argv[1:]:
     for station in data['devices']:
-      print("- netatmo.weather[{},{},{},wifi_status] {}".format(station['station_name'].lower(), station['module_name'].lower(), station['type'].lower(), station['wifi_status']))
-      for type in station['data_type']:
-        #zabbix expects value in main unit (bar) but netatmo api provide a mbar value. Others units (inHg, mmHg) should work as is.
-        if type == 'Pressure' and data['user']['administrative']['pressureunit'] == 0: station['dashboard_data'][type] = station['dashboard_data'][type]/1000
-        print("- netatmo.weather[{},{},{},{}] {}".format(station['station_name'].lower(), station['module_name'].lower(), station['type'].lower(), type.lower(), station['dashboard_data'][type]))
+      #Stations gather data every 10mn or so. If the data provided by the API for a station is older than 15mn, it is old data from from a broken or disconnected station so we are not providing them.
+      station['connected'] = 0
+      elapsed = datetime.datetime.now() - datetime.datetime.fromtimestamp(int(station['dashboard_data']['time_utc']))
+      if elapsed < datetime.timedelta(minutes=15):
+        station['connected'] = 1
+        for type in station['data_type']:
+          #zabbix expects value in main unit (bar) but netatmo api provide a mbar value. Others units (inHg, mmHg) should work as is.
+          if type == 'Pressure' and data['user']['administrative']['pressureunit'] == 0: station['dashboard_data'][type] = station['dashboard_data'][type]/1000
+          print("- netatmo.weather.{}.{}[{},{}] {}".format(station['type'].lower(), type.lower(), station['station_name'].lower(), station['module_name'].lower(), station['dashboard_data'][type]))
+      #print the connected status and the wifi status as it might provides informations on why the station is not connected
+      print("- netatmo.weather.namain.connected[{},{}] {}".format(station['station_name'].lower(), station['module_name'].lower(), station['connected']))
+      print("- netatmo.weather.namain.wifi_status[{},{}] {}".format(station['station_name'].lower(), station['module_name'].lower(), station['wifi_status']))
 
       for module in station['modules']:
-        print("- netatmo.weather[{},{},{},rf_status] {}".format(station['station_name'].lower(),  module['module_name'].lower(), module['type'].lower(), module['rf_status']))
-        print("- netatmo.weather[{},{},{},battery_status] {}".format(station['station_name'].lower(),  module['module_name'].lower(), module['type'].lower(), module['battery_vp']))
-        print("- netatmo.weather[{},{},{},battery_percent] {}".format(station['station_name'].lower(),  module['module_name'].lower(), module['type'].lower(), module['battery_percent']))
-        for type in module['data_type']:
-          print("- netatmo.weather[{},{},{},{}] {}".format(station['station_name'].lower(), module['module_name'].lower(), module['type'].lower(), type.lower(), module['dashboard_data'][type]))
+        #Modules gather data every 10mn or so. If the data provided by the API for a module is older than 15mn, it is old data from a broken or unpowered module so we are not providing them.
+        module['connected'] = 0
+        elapsed = datetime.datetime.now() - datetime.datetime.fromtimestamp(int(module['dashboard_data']['time_utc']))
+        if elapsed < datetime.timedelta(minutes=15):
+          module['connected'] = 1
+          for type in module['data_type']:
+            print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), type.lower(), station['station_name'].lower(), module['module_name'].lower(), module['dashboard_data'][type]))
+        #print the connected and others status as they might provide informations on why the module is not connected
+        print("- netatmo.weather.{}.connected[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['connected']))
+        print("- netatmo.weather.{}.rf_status[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['rf_status']))
+        print("- netatmo.weather.{}.battery_status[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['battery_vp']))
+        print("- netatmo.weather.{}.battery_percent[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['battery_percent']))
   
   #Parse json for discovery and format them for zabbix-sender
   if sys.argv[1:]:
@@ -112,7 +126,6 @@ try:
         curdata = {}
         curdata['{#STATION_NAME}'] = station['station_name'].lower()
         curdata['{#MODULE_NAME}'] = station['module_name'].lower()
-        curdata['{#MODULE_TYPE}'] = station['type'].lower()
         curdata['{#TEMPERATURE_UNIT}'] = unitwrapper('temperature')
         curdata['{#PRESSURE_UNIT}'] = unitwrapper('pressure')
         datalist_station.append(curdata)
@@ -120,7 +133,6 @@ try:
           curdata = {}
           curdata['{#STATION_NAME}'] = station['station_name'].lower()
           curdata['{#MODULE_NAME}'] = module['module_name'].lower()
-          curdata['{#MODULE_TYPE}'] = module['type'].lower()
           if module['type'].lower() == 'namodule1': 
             curdata['{#TEMPERATURE_UNIT}'] = unitwrapper('temperature')
             datalist_module1.append(curdata)
