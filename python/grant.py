@@ -1,18 +1,25 @@
-# https://dev.netatmo.com/en-US/resources/technical/guides/authentication/clientcredentials
+# https://dev.netatmo.com/en-US/resources/technical/guides/authentication/clientcredentials
 import requests
 import six
+import getpass
 
 try:
     import configparser
 except:
     from six.moves import configparser
 
+try: input = raw_input
+except NameError: pass
+
 Config = configparser.ConfigParser()
 Config.read('config.ini')
 
+username = input("Username: ")
+password = getpass.getpass("Password for " + username + ": ")
+
 payload = {'grant_type': 'password',
-           'username': Config.get('main', 'username'),
-           'password': Config.get('main', 'password'),
+           'username': username,
+           'password': password,
            'client_id': Config.get('main', 'client_id'),
            'client_secret': Config.get('main', 'client_secret'),
            'scope': 'read_station'}
@@ -30,7 +37,7 @@ try:
 
     Config.set('token', 'access_token', access_token)
     Config.set('token', 'refresh_token', refresh_token)
-    Config.set('token', 'token_expires', expires_in)
+    Config.set('token', 'token_expires', str(expires_in))
     with open('config.ini', 'w') as configfile:
         Config.write(configfile)
         configfile.close()

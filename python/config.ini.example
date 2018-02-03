@@ -1,7 +1,5 @@
 [main]
 device_id = 93:bb:22:18:8e:b3
-username = you@domain.tld
-password = yourpass
 client_id = yourclientid
 client_secret = yourclientsecret
 

@@ -9,8 +9,6 @@ Note : netatmo_standalone.py is the legacy and deprecated version which wont sup
 
 Rename config.ini.example as config.ini and edit variables in the [main] section :
 * device_id = Your device id (see below), or leave empty in order to get data for every station configured on your account
-* username = your netatmo login (email address)
-* password = your netatmo password
 * client_id = a client id generated on https://dev.netatmo.com/
 * client_secret = the correspondant client secret generated on https://dev.netatmo.com/
 
