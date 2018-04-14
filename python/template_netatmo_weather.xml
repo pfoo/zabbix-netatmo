@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.4</version>
-    <date>2018-02-03T12:27:39Z</date>
+    <date>2018-04-14T09:52:34Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -337,9 +337,9 @@ Temperature</description>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule1.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4500</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
+                            <expression>{Netatmo Weather:netatmo.weather.namodule1.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4500 and {Netatmo Weather:netatmo.weather.namodule1.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&gt;3999</expression>
+                            <recovery_mode>1</recovery_mode>
+                            <recovery_expression>{Netatmo Weather:netatmo.weather.namodule1.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4000 or {Netatmo Weather:netatmo.weather.namodule1.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&gt;4500</recovery_expression>
                             <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is low</name>
                             <correlation_mode>0</correlation_mode>
                             <correlation_tag/>
@@ -813,9 +813,9 @@ Wind strength</description>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule2.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4770</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
+                            <expression>{Netatmo Weather:netatmo.weather.namodule2.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4770 and {Netatmo Weather:netatmo.weather.namodule2.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&gt;4359</expression>
+                            <recovery_mode>1</recovery_mode>
+                            <recovery_expression>{Netatmo Weather:netatmo.weather.namodule2.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4360 or {Netatmo Weather:netatmo.weather.namodule2.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&gt;4770</recovery_expression>
                             <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is low</name>
                             <correlation_mode>0</correlation_mode>
                             <correlation_tag/>
@@ -1245,9 +1245,9 @@ Rain level for last 24h</description>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule3.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4500</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
+                            <expression>{Netatmo Weather:netatmo.weather.namodule3.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4500 and {Netatmo Weather:netatmo.weather.namodule3.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&gt;3999</expression>
+                            <recovery_mode>1</recovery_mode>
+                            <recovery_expression>{Netatmo Weather:netatmo.weather.namodule3.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4000 or {Netatmo Weather:netatmo.weather.namodule3.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&gt;4500</recovery_expression>
                             <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is low</name>
                             <correlation_mode>0</correlation_mode>
                             <correlation_tag/>
@@ -1677,9 +1677,9 @@ Temperature</description>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule4.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4920</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
+                            <expression>{Netatmo Weather:netatmo.weather.namodule4.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4920 and {Netatmo Weather:netatmo.weather.namodule4.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&gt;4559</expression>
+                            <recovery_mode>1</recovery_mode>
+                            <recovery_expression>{Netatmo Weather:netatmo.weather.namodule4.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4560 or {Netatmo Weather:netatmo.weather.namodule4.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&gt;4920</recovery_expression>
                             <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is low</name>
                             <correlation_mode>0</correlation_mode>
                             <correlation_tag/>
