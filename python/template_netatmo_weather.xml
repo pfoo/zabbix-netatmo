@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.4</version>
-    <date>2018-04-14T10:19:17Z</date>
+    <date>2018-04-15T16:11:06Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -391,6 +391,24 @@ Battery status is very low</description>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Less than 20% of battery remaining</description>
+                            <type>0</type>
+                            <manual_close>0</manual_close>
+                            <dependencies/>
+                            <tags/>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Netatmo Weather:netatmo.weather.namodule1.connected[{#STATION_NAME},{#MODULE_NAME}].last()}=0</expression>
+                            <recovery_mode>0</recovery_mode>
+                            <recovery_expression/>
+                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Module is disconnected</name>
+                            <correlation_mode>0</correlation_mode>
+                            <correlation_tag/>
+                            <url/>
+                            <status>0</status>
+                            <priority>4</priority>
+                            <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Module is disconnected</description>
                             <type>0</type>
                             <manual_close>0</manual_close>
                             <dependencies/>
@@ -879,6 +897,24 @@ Less than 20% of battery remaining</description>
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
+                            <expression>{Netatmo Weather:netatmo.weather.namodule2.connected[{#STATION_NAME},{#MODULE_NAME}].last()}=0</expression>
+                            <recovery_mode>0</recovery_mode>
+                            <recovery_expression/>
+                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Module is disconnected</name>
+                            <correlation_mode>0</correlation_mode>
+                            <correlation_tag/>
+                            <url/>
+                            <status>0</status>
+                            <priority>4</priority>
+                            <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Module is disconnected</description>
+                            <type>0</type>
+                            <manual_close>0</manual_close>
+                            <dependencies/>
+                            <tags/>
+                        </trigger_prototype>
+                        <trigger_prototype>
                             <expression>{Netatmo Weather:netatmo.weather.namodule2.rf_status[{#STATION_NAME},{#MODULE_NAME}].last(#1)}&gt;=90 and {Netatmo Weather:netatmo.weather.namodule2.rf_status[{#STATION_NAME},{#MODULE_NAME}].last(#2)}&gt;=90 and {Netatmo Weather:netatmo.weather.namodule2.rf_status[{#STATION_NAME},{#MODULE_NAME}].last(#3)}&gt;=90</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
@@ -1311,6 +1347,24 @@ Battery status is very low</description>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Less than 20% of battery remaining</description>
+                            <type>0</type>
+                            <manual_close>0</manual_close>
+                            <dependencies/>
+                            <tags/>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{Netatmo Weather:netatmo.weather.namodule3.connected[{#STATION_NAME},{#MODULE_NAME}].last()}=0</expression>
+                            <recovery_mode>0</recovery_mode>
+                            <recovery_expression/>
+                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Module is disconnected</name>
+                            <correlation_mode>0</correlation_mode>
+                            <correlation_tag/>
+                            <url/>
+                            <status>0</status>
+                            <priority>4</priority>
+                            <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Module is disconnected</description>
                             <type>0</type>
                             <manual_close>0</manual_close>
                             <dependencies/>
@@ -1755,6 +1809,24 @@ Less than 20% of battery remaining</description>
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
+                            <expression>{Netatmo Weather:netatmo.weather.namodule4.connected[{#STATION_NAME},{#MODULE_NAME}].last()}=0</expression>
+                            <recovery_mode>0</recovery_mode>
+                            <recovery_expression/>
+                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Module is disconnected</name>
+                            <correlation_mode>0</correlation_mode>
+                            <correlation_tag/>
+                            <url/>
+                            <status>0</status>
+                            <priority>4</priority>
+                            <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Module is disconnected</description>
+                            <type>0</type>
+                            <manual_close>0</manual_close>
+                            <dependencies/>
+                            <tags/>
+                        </trigger_prototype>
+                        <trigger_prototype>
                             <expression>{Netatmo Weather:netatmo.weather.namodule4.rf_status[{#STATION_NAME},{#MODULE_NAME}].last(#1)}&gt;=90 and {Netatmo Weather:netatmo.weather.namodule4.rf_status[{#STATION_NAME},{#MODULE_NAME}].last(#2)}&gt;=90 and {Netatmo Weather:netatmo.weather.namodule4.rf_status[{#STATION_NAME},{#MODULE_NAME}].last(#3)}&gt;=90</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
@@ -2126,6 +2198,24 @@ Lower is better.&#13;
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes>
+                        <trigger_prototype>
+                            <expression>{Netatmo Weather:netatmo.weather.namain.connected[{#STATION_NAME},{#MODULE_NAME}].last()}=0</expression>
+                            <recovery_mode>0</recovery_mode>
+                            <recovery_expression/>
+                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Station is disconnected</name>
+                            <correlation_mode>0</correlation_mode>
+                            <correlation_tag/>
+                            <url/>
+                            <status>0</status>
+                            <priority>4</priority>
+                            <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Station is disconnected</description>
+                            <type>0</type>
+                            <manual_close>0</manual_close>
+                            <dependencies/>
+                            <tags/>
+                        </trigger_prototype>
                         <trigger_prototype>
                             <expression>{Netatmo Weather:netatmo.weather.namain.wifi_status[{#STATION_NAME},{#MODULE_NAME}].last(#1)}&gt;=86 and {Netatmo Weather:netatmo.weather.namain.wifi_status[{#STATION_NAME},{#MODULE_NAME}].last(#2)}&gt;=86 and {Netatmo Weather:netatmo.weather.namain.wifi_status[{#STATION_NAME},{#MODULE_NAME}].last(#3)}&gt;=86</expression>
                             <recovery_mode>0</recovery_mode>
