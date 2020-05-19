@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>3.4</version>
-    <date>2018-04-15T16:11:06Z</date>
+    <version>4.4</version>
+    <date>2020-05-19T18:47:10Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -9,8 +9,8 @@
     </groups>
     <templates>
         <template>
-            <template>Netatmo Weather</template>
-            <name>Netatmo Weather</name>
+            <template>Template App Netatmo Weather</template>
+            <name>Template App Netatmo Weather</name>
             <description>Template for netatmo weather station&#13;
 https://github.com/pfoo/zabbix-netatmo</description>
             <groups>
@@ -23,112 +23,48 @@ https://github.com/pfoo/zabbix-netatmo</description>
                     <name>Netatmo</name>
                 </application>
             </applications>
-            <items/>
             <discovery_rules>
                 <discovery_rule>
                     <name>Netatmo weather outdoor module discovery</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <snmp_oid/>
+                    <type>TRAP</type>
                     <key>netatmo.weather.module.namodule1.discovery</key>
                     <delay>0</delay>
-                    <status>0</status>
-                    <allowed_hosts/>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <filter>
-                        <evaltype>0</evaltype>
-                        <formula/>
-                        <conditions/>
-                    </filter>
-                    <lifetime>30d</lifetime>
                     <description>Netatmo weather outdoor module discovery rules</description>
                     <item_prototypes>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Battery charge level</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule1.battery_percent[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <units>%</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Battery charge percentage</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;20</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : less than 20% of battery remaining</name>
+                                    <priority>WARNING</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Less than 20% of battery remaining</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Battery status</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule1.battery_status[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Battery Status&#13;
@@ -139,51 +75,46 @@ Battery Status&#13;
 4500 : medium&#13;
 4000 : low&#13;
 &lt;4000 : very low</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;4500</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is low</name>
+                                    <priority>WARNING</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Battery status is low</description>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is very low</name>
+                                            <expression>{Template App Netatmo Weather:netatmo.weather.namodule1.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4000</expression>
+                                        </dependency>
+                                    </dependencies>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;4000</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is very low</name>
+                                    <priority>HIGH</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Battery status is very low</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Connection status</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule1.connected[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Connection status</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
@@ -192,84 +123,41 @@ Connection status</description>
                             <valuemap>
                                 <name>Netatmo Weather Connection Status</name>
                             </valuemap>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}=0</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Module is disconnected</name>
+                                    <priority>HIGH</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Module is disconnected</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Humidity</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule1.humidity[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <units>%</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Humidity</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - RF signal</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule1.rf_status[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 RF signal info&#13;
@@ -277,270 +165,83 @@ Lower is better&#13;
 &#13;
 90 : low&#13;
 60 : highest</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last(#1)}&gt;=90 and {last(#2)}&gt;=90 and {last(#3)}&gt;=90</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : RF signal is weak</name>
+                                    <priority>WARNING</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+RF signal is weak on this module.</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Temperature</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule1.temperature[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>0</value_type>
-                            <allowed_hosts/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
+                            <value_type>FLOAT</value_type>
                             <units>°{#TEMPERATURE_UNIT}</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Temperature</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
                         </item_prototype>
                     </item_prototypes>
-                    <trigger_prototypes>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule1.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4500</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is low</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>2</priority>
-                            <description>Station : {#STATION_NAME}&#13;
-Module : {#MODULE_NAME}&#13;
-Battery status is low</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies>
-                                <dependency>
-                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is very low</name>
-                                    <expression>{Netatmo Weather:netatmo.weather.namodule1.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4000</expression>
-                                    <recovery_expression/>
-                                </dependency>
-                            </dependencies>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule1.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4000</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is very low</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>4</priority>
-                            <description>Station : {#STATION_NAME}&#13;
-Module : {#MODULE_NAME}&#13;
-Battery status is very low</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule1.battery_percent[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;20</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : less than 20% of battery remaining</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>2</priority>
-                            <description>Station : {#STATION_NAME}&#13;
-Module : {#MODULE_NAME}&#13;
-Less than 20% of battery remaining</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule1.connected[{#STATION_NAME},{#MODULE_NAME}].last()}=0</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Module is disconnected</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>4</priority>
-                            <description>Station : {#STATION_NAME}&#13;
-Module : {#MODULE_NAME}&#13;
-Module is disconnected</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule1.rf_status[{#STATION_NAME},{#MODULE_NAME}].last(#1)}&gt;=90 and {Netatmo Weather:netatmo.weather.namodule1.rf_status[{#STATION_NAME},{#MODULE_NAME}].last(#2)}&gt;=90 and {Netatmo Weather:netatmo.weather.namodule1.rf_status[{#STATION_NAME},{#MODULE_NAME}].last(#3)}&gt;=90</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : RF signal is weak</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>2</priority>
-                            <description>Station : {#STATION_NAME}&#13;
-Module : {#MODULE_NAME}&#13;
-RF signal is weak on this module.</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                    </trigger_prototypes>
-                    <graph_prototypes/>
-                    <host_prototypes/>
-                    <jmx_endpoint/>
                 </discovery_rule>
                 <discovery_rule>
                     <name>Netatmo weather wind gauge module discovery</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <snmp_oid/>
+                    <type>TRAP</type>
                     <key>netatmo.weather.module.namodule2.discovery</key>
                     <delay>0</delay>
-                    <status>0</status>
-                    <allowed_hosts/>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <filter>
-                        <evaltype>0</evaltype>
-                        <formula/>
-                        <conditions/>
-                    </filter>
-                    <lifetime>30d</lifetime>
                     <description>Netatmo weather wind gauge module discovery rules</description>
                     <item_prototypes>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Battery charge level</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule2.battery_percent[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <units>%</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Battery charge percentage</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;20</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : less than 20% of battery remaining</name>
+                                    <priority>WARNING</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Less than 20% of battery remaining</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Battery status</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule2.battery_status[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Battery Status&#13;
@@ -551,51 +252,46 @@ Battery Status&#13;
 4770 : medium&#13;
 4360 : low&#13;
 &lt;4360 : very low</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;4770</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is low</name>
+                                    <priority>WARNING</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Battery status is low</description>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is very low</name>
+                                            <expression>{Template App Netatmo Weather:netatmo.weather.namodule2.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4360</expression>
+                                        </dependency>
+                                    </dependencies>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;4360</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is very low</name>
+                                    <priority>HIGH</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Battery status is very low</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Connection status</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule2.connected[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Connection status</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
@@ -604,128 +300,94 @@ Connection status</description>
                             <valuemap>
                                 <name>Netatmo Weather Connection Status</name>
                             </valuemap>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}=0</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Module is disconnected</name>
+                                    <priority>HIGH</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Module is disconnected</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Maximum Wind Date</name>
+                            <type>TRAP</type>
+                            <key>netatmo.weather.namodule2.date_max_wind_str[{#STATION_NAME},{#MODULE_NAME}]</key>
+                            <delay>0</delay>
+                            <units>unixtime</units>
+                            <applications>
+                                <application>
+                                    <name>Netatmo</name>
+                                </application>
+                            </applications>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Wind gust angle</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule2.gustangle[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <units>°</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 wind gust angle</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Wind gust strength</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule2.guststrength[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <units>{#WIND_UNIT}</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Wind gust strength</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Maximum Wind Angle</name>
+                            <type>TRAP</type>
+                            <key>netatmo.weather.namodule2.max_wind_angle[{#STATION_NAME},{#MODULE_NAME}]</key>
+                            <delay>0</delay>
+                            <units>°</units>
+                            <applications>
+                                <application>
+                                    <name>Netatmo</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Maximum Wind Strength</name>
+                            <type>TRAP</type>
+                            <key>netatmo.weather.namodule2.max_wind_str[{#STATION_NAME},{#MODULE_NAME}]</key>
+                            <delay>0</delay>
+                            <units>!kp/h</units>
+                            <applications>
+                                <application>
+                                    <name>Netatmo</name>
+                                </application>
+                            </applications>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - RF signal</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule2.rf_status[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 RF signal info&#13;
@@ -733,314 +395,99 @@ Lower is better&#13;
 &#13;
 90 : low&#13;
 60 : highest</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last(#1)}&gt;=90 and {last(#2)}&gt;=90 and {last(#3)}&gt;=90</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : RF signal is weak</name>
+                                    <priority>WARNING</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+RF signal is weak on this module.</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Wind angle</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule2.windangle[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <units>°</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 wind angle</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Wind strength</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule2.windstrength[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <units>{#WIND_UNIT}</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Wind strength</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
                         </item_prototype>
                     </item_prototypes>
-                    <trigger_prototypes>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule2.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4770</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is low</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>2</priority>
-                            <description>Station : {#STATION_NAME}&#13;
-Module : {#MODULE_NAME}&#13;
-Battery status is low</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies>
-                                <dependency>
-                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is very low</name>
-                                    <expression>{Netatmo Weather:netatmo.weather.namodule2.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4360</expression>
-                                    <recovery_expression/>
-                                </dependency>
-                            </dependencies>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule2.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4360</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is very low</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>4</priority>
-                            <description>Station : {#STATION_NAME}&#13;
-Module : {#MODULE_NAME}&#13;
-Battery status is very low</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule2.battery_percent[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;20</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : less than 20% of battery remaining</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>2</priority>
-                            <description>Station : {#STATION_NAME}&#13;
-Module : {#MODULE_NAME}&#13;
-Less than 20% of battery remaining</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule2.connected[{#STATION_NAME},{#MODULE_NAME}].last()}=0</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Module is disconnected</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>4</priority>
-                            <description>Station : {#STATION_NAME}&#13;
-Module : {#MODULE_NAME}&#13;
-Module is disconnected</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule2.rf_status[{#STATION_NAME},{#MODULE_NAME}].last(#1)}&gt;=90 and {Netatmo Weather:netatmo.weather.namodule2.rf_status[{#STATION_NAME},{#MODULE_NAME}].last(#2)}&gt;=90 and {Netatmo Weather:netatmo.weather.namodule2.rf_status[{#STATION_NAME},{#MODULE_NAME}].last(#3)}&gt;=90</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : RF signal is weak</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>2</priority>
-                            <description>Station : {#STATION_NAME}&#13;
-Module : {#MODULE_NAME}&#13;
-RF signal is weak on this module.</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                    </trigger_prototypes>
-                    <graph_prototypes/>
-                    <host_prototypes/>
-                    <jmx_endpoint/>
                 </discovery_rule>
                 <discovery_rule>
                     <name>Netatmo weather rain gauge module discovery</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <snmp_oid/>
+                    <type>TRAP</type>
                     <key>netatmo.weather.module.namodule3.discovery</key>
                     <delay>0</delay>
-                    <status>0</status>
-                    <allowed_hosts/>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <filter>
-                        <evaltype>0</evaltype>
-                        <formula/>
-                        <conditions/>
-                    </filter>
-                    <lifetime>30d</lifetime>
                     <description>Netatmo weather rain gauge module discovery rules</description>
                     <item_prototypes>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Battery charge level</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule3.battery_percent[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <units>%</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Battery charge percentage</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;20</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : less than 20% of battery remaining</name>
+                                    <priority>WARNING</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Less than 20% of battery remaining</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Battery status</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule3.battery_status[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Battery Status&#13;
@@ -1051,51 +498,46 @@ Battery Status&#13;
 4500 : medium&#13;
 4000 : low&#13;
 &lt;4000 : very low</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;4500</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is low</name>
+                                    <priority>WARNING</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Battery status is low</description>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is very low</name>
+                                            <expression>{Template App Netatmo Weather:netatmo.weather.namodule3.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4000</expression>
+                                        </dependency>
+                                    </dependencies>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;4000</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is very low</name>
+                                    <priority>HIGH</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Battery status is very low</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Connection status</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule3.connected[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Connection status</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
@@ -1104,84 +546,42 @@ Connection status</description>
                             <valuemap>
                                 <name>Netatmo Weather Connection Status</name>
                             </valuemap>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}=0</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Module is disconnected</name>
+                                    <priority>HIGH</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Module is disconnected</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Rain</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule3.rain[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
+                            <value_type>FLOAT</value_type>
                             <units>{#RAIN_UNIT}</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Current rain level</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - RF signal</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule3.rf_status[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 RF signal info&#13;
@@ -1189,314 +589,101 @@ Lower is better&#13;
 &#13;
 90 : low&#13;
 60 : highest</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last(#1)}&gt;=90 and {last(#2)}&gt;=90 and {last(#3)}&gt;=90</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : RF signal is weak</name>
+                                    <priority>WARNING</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+RF signal is weak on this module.</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Rain for last hour</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule3.sum_rain_1[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
+                            <value_type>FLOAT</value_type>
                             <units>{#RAIN_UNIT}</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Rain level for last hour</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Rain for last 24h</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule3.sum_rain_24[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
+                            <value_type>FLOAT</value_type>
                             <units>{#RAIN_UNIT}</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Rain level for last 24h</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
                         </item_prototype>
                     </item_prototypes>
-                    <trigger_prototypes>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule3.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4500</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is low</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>2</priority>
-                            <description>Station : {#STATION_NAME}&#13;
-Module : {#MODULE_NAME}&#13;
-Battery status is low</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies>
-                                <dependency>
-                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is very low</name>
-                                    <expression>{Netatmo Weather:netatmo.weather.namodule3.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4000</expression>
-                                    <recovery_expression/>
-                                </dependency>
-                            </dependencies>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule3.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4000</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is very low</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>4</priority>
-                            <description>Station : {#STATION_NAME}&#13;
-Module : {#MODULE_NAME}&#13;
-Battery status is very low</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule3.battery_percent[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;20</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : less than 20% of battery remaining</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>2</priority>
-                            <description>Station : {#STATION_NAME}&#13;
-Module : {#MODULE_NAME}&#13;
-Less than 20% of battery remaining</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule3.connected[{#STATION_NAME},{#MODULE_NAME}].last()}=0</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Module is disconnected</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>4</priority>
-                            <description>Station : {#STATION_NAME}&#13;
-Module : {#MODULE_NAME}&#13;
-Module is disconnected</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule3.rf_status[{#STATION_NAME},{#MODULE_NAME}].last(#1)}&gt;=90 and {Netatmo Weather:netatmo.weather.namodule3.rf_status[{#STATION_NAME},{#MODULE_NAME}].last(#2)}&gt;=90 and {Netatmo Weather:netatmo.weather.namodule3.rf_status[{#STATION_NAME},{#MODULE_NAME}].last(#3)}&gt;=90</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : RF signal is weak</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>2</priority>
-                            <description>Station : {#STATION_NAME}&#13;
-Module : {#MODULE_NAME}&#13;
-RF signal is weak on this module.</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                    </trigger_prototypes>
-                    <graph_prototypes/>
-                    <host_prototypes/>
-                    <jmx_endpoint/>
                 </discovery_rule>
                 <discovery_rule>
                     <name>Netatmo weather indoor module discovery</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <snmp_oid/>
+                    <type>TRAP</type>
                     <key>netatmo.weather.module.namodule4.discovery</key>
                     <delay>0</delay>
-                    <status>0</status>
-                    <allowed_hosts/>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <filter>
-                        <evaltype>0</evaltype>
-                        <formula/>
-                        <conditions/>
-                    </filter>
-                    <lifetime>30d</lifetime>
                     <description>Netatmo weather indoor module discovery rules</description>
                     <item_prototypes>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Battery charge level</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule4.battery_percent[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <units>%</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Battery charge percentage</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;20</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : less than 20% of battery remaining</name>
+                                    <priority>WARNING</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Less than 20% of battery remaining</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Battery status</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule4.battery_status[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Battery Status&#13;
@@ -1507,95 +694,63 @@ Battery Status&#13;
 4920 : medium&#13;
 4560 : low&#13;
 &lt;4560 : very low</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;4920</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is low</name>
+                                    <priority>WARNING</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Battery status is low</description>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is very low</name>
+                                            <expression>{Template App Netatmo Weather:netatmo.weather.namodule4.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4560</expression>
+                                        </dependency>
+                                    </dependencies>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;4560</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is very low</name>
+                                    <priority>HIGH</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Battery status is very low</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - CO2</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule4.co2[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units>ppm</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
+                            <units>!ppm</units>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 CO2 level</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Connection status</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule4.connected[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Connection status</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
@@ -1604,84 +759,41 @@ Connection status</description>
                             <valuemap>
                                 <name>Netatmo Weather Connection Status</name>
                             </valuemap>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{min(120)}=0</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Module is disconnected</name>
+                                    <priority>HIGH</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Module is disconnected</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Humidity</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule4.humidity[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <units>%</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Humidity</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - RF signal</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule4.rf_status[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 RF signal info&#13;
@@ -1689,274 +801,76 @@ Lower is better&#13;
 &#13;
 90 : low&#13;
 60 : highest</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last(#1)}&gt;=90 and {last(#2)}&gt;=90 and {last(#3)}&gt;=90</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : RF signal is weak</name>
+                                    <priority>WARNING</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+RF signal is weak on this module.</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Temperature</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namodule4.temperature[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>0</value_type>
-                            <allowed_hosts/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
+                            <value_type>FLOAT</value_type>
                             <units>°{#TEMPERATURE_UNIT}</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Temperature</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
                         </item_prototype>
                     </item_prototypes>
-                    <trigger_prototypes>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule4.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4920</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is low</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>2</priority>
-                            <description>Station : {#STATION_NAME}&#13;
-Module : {#MODULE_NAME}&#13;
-Battery status is low</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies>
-                                <dependency>
-                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is very low</name>
-                                    <expression>{Netatmo Weather:netatmo.weather.namodule4.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4560</expression>
-                                    <recovery_expression/>
-                                </dependency>
-                            </dependencies>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule4.battery_status[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;4560</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Battery Status is very low</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>4</priority>
-                            <description>Station : {#STATION_NAME}&#13;
-Module : {#MODULE_NAME}&#13;
-Battery status is very low</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule4.battery_percent[{#STATION_NAME},{#MODULE_NAME}].last()}&lt;20</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : less than 20% of battery remaining</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>2</priority>
-                            <description>Station : {#STATION_NAME}&#13;
-Module : {#MODULE_NAME}&#13;
-Less than 20% of battery remaining</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule4.connected[{#STATION_NAME},{#MODULE_NAME}].last()}=0</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Module is disconnected</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>4</priority>
-                            <description>Station : {#STATION_NAME}&#13;
-Module : {#MODULE_NAME}&#13;
-Module is disconnected</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namodule4.rf_status[{#STATION_NAME},{#MODULE_NAME}].last(#1)}&gt;=90 and {Netatmo Weather:netatmo.weather.namodule4.rf_status[{#STATION_NAME},{#MODULE_NAME}].last(#2)}&gt;=90 and {Netatmo Weather:netatmo.weather.namodule4.rf_status[{#STATION_NAME},{#MODULE_NAME}].last(#3)}&gt;=90</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : RF signal is weak</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>2</priority>
-                            <description>Station : {#STATION_NAME}&#13;
-Module : {#MODULE_NAME}&#13;
-RF signal is weak on this module.</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                    </trigger_prototypes>
-                    <graph_prototypes/>
-                    <host_prototypes/>
-                    <jmx_endpoint/>
                 </discovery_rule>
                 <discovery_rule>
                     <name>Netatmo weather station discovery</name>
-                    <type>2</type>
-                    <snmp_community/>
-                    <snmp_oid/>
+                    <type>TRAP</type>
                     <key>netatmo.weather.station.discovery</key>
                     <delay>0</delay>
-                    <status>0</status>
-                    <allowed_hosts/>
-                    <snmpv3_contextname/>
-                    <snmpv3_securityname/>
-                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                    <snmpv3_authpassphrase/>
-                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                    <snmpv3_privpassphrase/>
-                    <params/>
-                    <ipmi_sensor/>
-                    <authtype>0</authtype>
-                    <username/>
-                    <password/>
-                    <publickey/>
-                    <privatekey/>
-                    <port/>
-                    <filter>
-                        <evaltype>0</evaltype>
-                        <formula/>
-                        <conditions/>
-                    </filter>
-                    <lifetime>30d</lifetime>
                     <description>Netatmo weather station discovery rules</description>
                     <item_prototypes>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - CO2</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namain.co2[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <units>ppm</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 CO2 level</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Connection status</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namain.connected[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Connection status</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
@@ -1965,216 +879,94 @@ Connection status</description>
                             <valuemap>
                                 <name>Netatmo Weather Connection Status</name>
                             </valuemap>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{min(120)}=0</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Station is disconnected</name>
+                                    <priority>HIGH</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
+Module : {#MODULE_NAME}&#13;
+Station is disconnected</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Humidity</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namain.humidity[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <units>%</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Humidity</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Noise</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namain.noise[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <units>dB</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Noise</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Pressure</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namain.pressure[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>0</value_type>
-                            <allowed_hosts/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
+                            <value_type>FLOAT</value_type>
                             <units>{#PRESSURE_UNIT}</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Pressure</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - Temperature</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namain.temperature[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>0</value_type>
-                            <allowed_hosts/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
+                            <value_type>FLOAT</value_type>
                             <units>°{#TEMPERATURE_UNIT}</units>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 Temperature</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Netatmo {#STATION_NAME} - {#MODULE_NAME} - WiFi signal</name>
-                            <type>2</type>
-                            <snmp_community/>
-                            <snmp_oid/>
+                            <type>TRAP</type>
                             <key>netatmo.weather.namain.wifi_status[{#STATION_NAME},{#MODULE_NAME}]</key>
                             <delay>0</delay>
-                            <history>90d</history>
-                            <trends>365d</trends>
-                            <status>0</status>
-                            <value_type>3</value_type>
-                            <allowed_hosts/>
-                            <units/>
-                            <snmpv3_contextname/>
-                            <snmpv3_securityname/>
-                            <snmpv3_securitylevel>0</snmpv3_securitylevel>
-                            <snmpv3_authprotocol>0</snmpv3_authprotocol>
-                            <snmpv3_authpassphrase/>
-                            <snmpv3_privprotocol>0</snmpv3_privprotocol>
-                            <snmpv3_privpassphrase/>
-                            <params/>
-                            <ipmi_sensor/>
-                            <authtype>0</authtype>
-                            <username/>
-                            <password/>
-                            <publickey/>
-                            <privatekey/>
-                            <port/>
+                            <history>1825d</history>
+                            <trends>3650d</trends>
                             <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 WiFi signal info. &#13;
@@ -2183,67 +975,25 @@ Lower is better.&#13;
 86 : Bad&#13;
 71 : Average&#13;
 56 : Good</description>
-                            <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
                                     <name>Netatmo</name>
                                 </application>
                             </applications>
-                            <valuemap/>
-                            <logtimefmt/>
-                            <preprocessing/>
-                            <jmx_endpoint/>
-                            <application_prototypes/>
-                            <master_item_prototype/>
-                        </item_prototype>
-                    </item_prototypes>
-                    <trigger_prototypes>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namain.connected[{#STATION_NAME},{#MODULE_NAME}].last()}=0</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : Station is disconnected</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>4</priority>
-                            <description>Station : {#STATION_NAME}&#13;
-Module : {#MODULE_NAME}&#13;
-Station is disconnected</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                        <trigger_prototype>
-                            <expression>{Netatmo Weather:netatmo.weather.namain.wifi_status[{#STATION_NAME},{#MODULE_NAME}].last(#1)}&gt;=86 and {Netatmo Weather:netatmo.weather.namain.wifi_status[{#STATION_NAME},{#MODULE_NAME}].last(#2)}&gt;=86 and {Netatmo Weather:netatmo.weather.namain.wifi_status[{#STATION_NAME},{#MODULE_NAME}].last(#3)}&gt;=86</expression>
-                            <recovery_mode>0</recovery_mode>
-                            <recovery_expression/>
-                            <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : WiFi signal is BAD</name>
-                            <correlation_mode>0</correlation_mode>
-                            <correlation_tag/>
-                            <url/>
-                            <status>0</status>
-                            <priority>2</priority>
-                            <description>Station : {#STATION_NAME}&#13;
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last(#1)}&gt;=86 and {last(#2)}&gt;=86 and {last(#3)}&gt;=86</expression>
+                                    <name>Netatmo {#STATION_NAME} {#MODULE_NAME} : WiFi signal is BAD</name>
+                                    <priority>WARNING</priority>
+                                    <description>Station : {#STATION_NAME}&#13;
 Module : {#MODULE_NAME}&#13;
 WiFi signal is BAD (&gt;= 86)</description>
-                            <type>0</type>
-                            <manual_close>0</manual_close>
-                            <dependencies/>
-                            <tags/>
-                        </trigger_prototype>
-                    </trigger_prototypes>
-                    <graph_prototypes/>
-                    <host_prototypes/>
-                    <jmx_endpoint/>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
                 </discovery_rule>
             </discovery_rules>
-            <httptests/>
-            <macros/>
-            <templates/>
-            <screens/>
         </template>
     </templates>
     <value_maps>
