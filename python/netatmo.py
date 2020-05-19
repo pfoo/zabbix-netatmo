@@ -6,7 +6,6 @@ import sys
 import six
 import os
 import datetime
-import pprint
 
 #import configparser for both python2 and 3
 try:
