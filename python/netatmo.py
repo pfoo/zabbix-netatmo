@@ -98,8 +98,40 @@ try:
         elapsed = datetime.datetime.now() - datetime.datetime.fromtimestamp(int(module['dashboard_data']['time_utc']))
         if elapsed < datetime.timedelta(minutes=15):
           module['connected'] = 1
-          for type in module['data_type']:
-            print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), type.lower(), station['station_name'].lower(), module['module_name'].lower(), module['dashboard_data'][type]))
+          # anemometer
+          if module['type'].lower() == 'namodule2':
+              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'windstrength', station['station_name'].lower(), module['module_name'].lower(), module['dashboard_data']['WindStrength']))
+
+              # angle can be reported as -1, returning 0 in order for Zabbix to support it
+              if module['dashboard_data']['WindAngle'] == -1:
+                  angle = 0
+              else:
+                  angle = module['dashboard_data']['WindAngle']
+              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'windangle', station['station_name'].lower(), module['module_name'].lower(), str(angle)))
+              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'guststrength', station['station_name'].lower(), module['module_name'].lower(), module['dashboard_data']['GustStrength']))
+              # angle can be reported as -1, returning 0 in order for Zabbix to support it
+              if module['dashboard_data']['GustAngle'] == -1:
+                  gust_angle = 0
+              else:
+                  gust_angle = module['dashboard_data']['GustAngle']
+              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'gustangle', station['station_name'].lower(), module['module_name'].lower(), str(gust_angle)))
+              # angle can be reported as -1, returning 0 in order for Zabbix to support it
+              if module['dashboard_data']['max_wind_angle'] == -1:
+                  max_wind_angle = 0
+              else:
+                  max_wind_angle = module['dashboard_data']['max_wind_angle']
+              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'max_wind_angle', station['station_name'].lower(), module['module_name'].lower(), str(max_wind_angle)))
+              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'max_wind_str', station['station_name'].lower(), module['module_name'].lower(), module['dashboard_data']['max_wind_str']))
+              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'date_max_wind_str', station['station_name'].lower(), module['module_name'].lower(), module['dashboard_data']['date_max_wind_str']))
+          # rain gauge
+          elif module['type'].lower() == 'namodule3':
+             print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'rain', station['station_name'].lower(), module['module_name'].lower(), module['dashboard_data']['Rain']))
+             print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'sum_rain_1', station['station_name'].lower(), module['module_name'].lower(), module['dashboard_data']['sum_rain_1']))
+             print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'sum_rain_24', station['station_name'].lower(), module['module_name'].lower(), module['dashboard_data']['sum_rain_24']))
+          # everything else
+          else:
+              for type in module['data_type']:
+                  print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), type.lower(), station['station_name'].lower(), module['module_name'].lower(), module['dashboard_data'][type]))
         #print the connected and others status as they might provide informations on why the module is not connected
         print("- netatmo.weather.{}.connected[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['connected']))
         print("- netatmo.weather.{}.rf_status[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['rf_status']))
