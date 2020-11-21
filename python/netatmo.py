@@ -88,10 +88,10 @@ try:
         for type in station['data_type']:
           #zabbix expects value in main unit (bar) but netatmo api provide a mbar value. Others units (inHg, mmHg) should work as is.
           if type == 'Pressure' and data['user']['administrative']['pressureunit'] == 0: station['dashboard_data'][type] = station['dashboard_data'][type]/1000
-          print("- netatmo.weather.{}.{}[{},{}] {}".format(station['type'].lower(), type.lower(), station['station_name'].lower(), station['module_name'].lower(), station['dashboard_data'][type]))
+          print("- netatmo.weather.{}.{}[{},{}] {}".format(station['type'].lower(), type.lower(), station['home_name'].lower(), station['module_name'].lower(), station['dashboard_data'][type]))
       #print the connected status and the wifi status as it might provides informations on why the station is not connected
-      print("- netatmo.weather.namain.connected[{},{}] {}".format(station['station_name'].lower(), station['module_name'].lower(), station['connected']))
-      print("- netatmo.weather.namain.wifi_status[{},{}] {}".format(station['station_name'].lower(), station['module_name'].lower(), station['wifi_status']))
+      print("- netatmo.weather.namain.connected[{},{}] {}".format(station['home_name'].lower(), station['module_name'].lower(), station['connected']))
+      print("- netatmo.weather.namain.wifi_status[{},{}] {}".format(station['home_name'].lower(), station['module_name'].lower(), station['wifi_status']))
 
       for module in station['modules']:
         try:
@@ -101,16 +101,16 @@ try:
           if elapsed < datetime.timedelta(minutes=15):
             module['connected'] = 1
             for type in module['data_type']:
-              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), type.lower(), station['station_name'].lower(), module['module_name'].lower(), module['dashboard_data'][type]))
+              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), type.lower(), station['home_name'].lower(), module['module_name'].lower(), module['dashboard_data'][type]))
           #print the connected and others status as they might provide informations on why the module is not connected
-          print("- netatmo.weather.{}.connected[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['connected']))
-          print("- netatmo.weather.{}.rf_status[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['rf_status']))
-          print("- netatmo.weather.{}.battery_status[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['battery_vp']))
-          print("- netatmo.weather.{}.battery_percent[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['battery_percent']))
+          print("- netatmo.weather.{}.connected[{},{}] {}".format(module['type'].lower(), station['home_name'].lower(),  module['module_name'].lower(), module['connected']))
+          print("- netatmo.weather.{}.rf_status[{},{}] {}".format(module['type'].lower(), station['home_name'].lower(),  module['module_name'].lower(), module['rf_status']))
+          print("- netatmo.weather.{}.battery_status[{},{}] {}".format(module['type'].lower(), station['home_name'].lower(),  module['module_name'].lower(), module['battery_vp']))
+          print("- netatmo.weather.{}.battery_percent[{},{}] {}".format(module['type'].lower(), station['home_name'].lower(),  module['module_name'].lower(), module['battery_percent']))
         except KeyError as error:
           # Seems like if dashboard_data is not in the response (throwing a Python KeyError), the module is completely undetected by the station so we return only the connected status (=disconnected) in this case
           if str(error) == '\'dashboard_data\'':
-            print("- netatmo.weather.{}.connected[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['connected']))
+            print("- netatmo.weather.{}.connected[{},{}] {}".format(module['type'].lower(), station['home_name'].lower(),  module['module_name'].lower(), module['connected']))
           # Print others KeyError in stderr in case they happen
           else:
             print("Error while gathering data for module {} : KeyError on {}".format(module['module_name'], str(error)), file=sys.stderr)
@@ -134,14 +134,14 @@ try:
       datalist_module4 = []
       for station in data['devices']:
         curdata = {}
-        curdata['{#STATION_NAME}'] = station['station_name'].lower()
+        curdata['{#STATION_NAME}'] = station['home_name'].lower()
         curdata['{#MODULE_NAME}'] = station['module_name'].lower()
         curdata['{#TEMPERATURE_UNIT}'] = unitwrapper('temperature')
         curdata['{#PRESSURE_UNIT}'] = unitwrapper('pressure')
         datalist_station.append(curdata)
         for module in station['modules']:
           curdata = {}
-          curdata['{#STATION_NAME}'] = station['station_name'].lower()
+          curdata['{#STATION_NAME}'] = station['home_name'].lower()
           curdata['{#MODULE_NAME}'] = module['module_name'].lower()
           if module['type'].lower() == 'namodule1':
             curdata['{#TEMPERATURE_UNIT}'] = unitwrapper('temperature')
