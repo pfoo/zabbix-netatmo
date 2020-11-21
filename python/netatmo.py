@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 # API : https://dev.netatmo.com/en-US/resources/technical/reference/weatherstation/getstationsdata
+from __future__ import print_function
 import requests
 import sys
 import six
@@ -25,7 +26,7 @@ def unitwrapper(type):
       if data['user']['administrative']['pressureunit'] == 0: unit = 'Bar'
       if data['user']['administrative']['pressureunit'] == 1: unit = 'inHg'
       if data['user']['administrative']['pressureunit'] == 2: unit = 'mmHg'
-    if type.lower() == 'wind': 
+    if type.lower() == 'wind':
       if data['user']['administrative']['windunit'] == 0: unit = 'kph'
       if data['user']['administrative']['windunit'] == 1: unit = 'mph'
       if data['user']['administrative']['windunit'] == 2: unit = 'm/s'
@@ -58,7 +59,7 @@ try:
     with open(os.path.join(sys.path[0], 'config.ini'), 'w') as configfile:
         Config.write(configfile)
         configfile.close()
-  
+
   #POST request and get json in response
   device_id = Config.get('main', 'device_id')
   if device_id:
@@ -75,7 +76,7 @@ try:
   data = response.json()['body']
   #Remove config from memory
   del Config
-  
+
   #Parse json for trappers metrics recovery and format them for zabbix-sender
   if not sys.argv[1:]:
     for station in data['devices']:
@@ -93,19 +94,28 @@ try:
       print("- netatmo.weather.namain.wifi_status[{},{}] {}".format(station['station_name'].lower(), station['module_name'].lower(), station['wifi_status']))
 
       for module in station['modules']:
-        #Modules gather data every 10mn or so. If the data provided by the API for a module is older than 15mn, it is old data from a broken or unpowered module so we are not providing them.
-        module['connected'] = 0
-        elapsed = datetime.datetime.now() - datetime.datetime.fromtimestamp(int(module['dashboard_data']['time_utc']))
-        if elapsed < datetime.timedelta(minutes=15):
-          module['connected'] = 1
-          for type in module['data_type']:
-            print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), type.lower(), station['station_name'].lower(), module['module_name'].lower(), module['dashboard_data'][type]))
-        #print the connected and others status as they might provide informations on why the module is not connected
-        print("- netatmo.weather.{}.connected[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['connected']))
-        print("- netatmo.weather.{}.rf_status[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['rf_status']))
-        print("- netatmo.weather.{}.battery_status[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['battery_vp']))
-        print("- netatmo.weather.{}.battery_percent[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['battery_percent']))
-  
+        try:
+          #Modules gather data every 10mn or so. If the data provided by the API for a module is older than 15mn, it is old data from a broken or unpowered module so we are not providing them.
+          module['connected'] = 0
+          elapsed = datetime.datetime.now() - datetime.datetime.fromtimestamp(int(module['dashboard_data']['time_utc']))
+          if elapsed < datetime.timedelta(minutes=15):
+            module['connected'] = 1
+            for type in module['data_type']:
+              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), type.lower(), station['station_name'].lower(), module['module_name'].lower(), module['dashboard_data'][type]))
+          #print the connected and others status as they might provide informations on why the module is not connected
+          print("- netatmo.weather.{}.connected[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['connected']))
+          print("- netatmo.weather.{}.rf_status[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['rf_status']))
+          print("- netatmo.weather.{}.battery_status[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['battery_vp']))
+          print("- netatmo.weather.{}.battery_percent[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['battery_percent']))
+        except KeyError as error:
+          # Seems like if dashboard_data is not in the response (throwing a Python KeyError), the module is completely undetected by the station so we return only the connected status (=disconnected) in this case
+          if str(error) == '\'dashboard_data\'':
+            print("- netatmo.weather.{}.connected[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['connected']))
+          # Print others KeyError in stderr in case they happen
+          else:
+            print("Error while gathering data for module {} : KeyError on {}".format(module['module_name'], str(error)), file=sys.stderr)
+          continue
+
   #Parse json for discovery and format them for zabbix-sender
   if sys.argv[1:]:
     if sys.argv[1] == 'discovery':
@@ -133,7 +143,7 @@ try:
           curdata = {}
           curdata['{#STATION_NAME}'] = station['station_name'].lower()
           curdata['{#MODULE_NAME}'] = module['module_name'].lower()
-          if module['type'].lower() == 'namodule1': 
+          if module['type'].lower() == 'namodule1':
             curdata['{#TEMPERATURE_UNIT}'] = unitwrapper('temperature')
             datalist_module1.append(curdata)
           if module['type'].lower() == 'namodule2':
