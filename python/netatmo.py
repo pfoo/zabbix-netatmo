@@ -94,9 +94,10 @@ try:
       print("- netatmo.weather.namain.wifi_status[{},{}] {}".format(station['home_name'].lower(), station['module_name'].lower(), station['wifi_status']))
 
       for module in station['modules']:
+        # consider module as offline by default
+        module['connected'] = 0
         try:
           #Modules gather data every 10mn or so. If the data provided by the API for a module is older than 15mn, it is old data from a broken or unpowered module so we are not providing them.
-          module['connected'] = 0
           elapsed = datetime.datetime.now() - datetime.datetime.fromtimestamp(int(module['dashboard_data']['time_utc']))
           if elapsed < datetime.timedelta(minutes=15):
             module['connected'] = 1
