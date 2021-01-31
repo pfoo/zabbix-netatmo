@@ -87,10 +87,10 @@ try:
         for type in station['data_type']:
           #zabbix expects value in main unit (bar) but netatmo api provide a mbar value. Others units (inHg, mmHg) should work as is.
           if type == 'Pressure' and data['user']['administrative']['pressureunit'] == 0: station['dashboard_data'][type] = station['dashboard_data'][type]/1000
-          print("- netatmo.weather.{}.{}[{},{}] {}".format(station['type'].lower(), type.lower(), station['station_name'].lower(), station['module_name'].lower(), station['dashboard_data'][type]))
+          print("- netatmo.weather.{}.{}[{},{}] {}".format(station['type'].lower(), type.lower(), station['home_name'].lower(), station['module_name'].lower(), station['dashboard_data'][type]))
       #print the connected status and the wifi status as it might provides informations on why the station is not connected
-      print("- netatmo.weather.namain.connected[{},{}] {}".format(station['station_name'].lower(), station['module_name'].lower(), station['connected']))
-      print("- netatmo.weather.namain.wifi_status[{},{}] {}".format(station['station_name'].lower(), station['module_name'].lower(), station['wifi_status']))
+      print("- netatmo.weather.namain.connected[{},{}] {}".format(station['home_name'].lower(), station['module_name'].lower(), station['connected']))
+      print("- netatmo.weather.namain.wifi_status[{},{}] {}".format(station['home_name'].lower(), station['module_name'].lower(), station['wifi_status']))
 
       for module in station['modules']:
         #Modules gather data every 10mn or so. If the data provided by the API for a module is older than 15mn, it is old data from a broken or unpowered module so we are not providing them.
@@ -100,43 +100,43 @@ try:
           module['connected'] = 1
           # anemometer
           if module['type'].lower() == 'namodule2':
-              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'windstrength', station['station_name'].lower(), module['module_name'].lower(), module['dashboard_data']['WindStrength']))
+              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'windstrength', station['home_name'].lower(), module['module_name'].lower(), module['dashboard_data']['WindStrength']))
 
               # angle can be reported as -1, returning 0 in order for Zabbix to support it
               if module['dashboard_data']['WindAngle'] == -1:
                   angle = 0
               else:
                   angle = module['dashboard_data']['WindAngle']
-              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'windangle', station['station_name'].lower(), module['module_name'].lower(), str(angle)))
-              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'guststrength', station['station_name'].lower(), module['module_name'].lower(), module['dashboard_data']['GustStrength']))
+              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'windangle', station['home_name'].lower(), module['module_name'].lower(), str(angle)))
+              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'guststrength', station['home_name'].lower(), module['module_name'].lower(), module['dashboard_data']['GustStrength']))
               # angle can be reported as -1, returning 0 in order for Zabbix to support it
               if module['dashboard_data']['GustAngle'] == -1:
                   gust_angle = 0
               else:
                   gust_angle = module['dashboard_data']['GustAngle']
-              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'gustangle', station['station_name'].lower(), module['module_name'].lower(), str(gust_angle)))
+              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'gustangle', station['home_name'].lower(), module['module_name'].lower(), str(gust_angle)))
               # angle can be reported as -1, returning 0 in order for Zabbix to support it
               if module['dashboard_data']['max_wind_angle'] == -1:
                   max_wind_angle = 0
               else:
                   max_wind_angle = module['dashboard_data']['max_wind_angle']
-              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'max_wind_angle', station['station_name'].lower(), module['module_name'].lower(), str(max_wind_angle)))
-              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'max_wind_str', station['station_name'].lower(), module['module_name'].lower(), module['dashboard_data']['max_wind_str']))
-              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'date_max_wind_str', station['station_name'].lower(), module['module_name'].lower(), module['dashboard_data']['date_max_wind_str']))
+              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'max_wind_angle', station['home_name'].lower(), module['module_name'].lower(), str(max_wind_angle)))
+              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'max_wind_str', station['home_name'].lower(), module['module_name'].lower(), module['dashboard_data']['max_wind_str']))
+              print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'date_max_wind_str', station['home_name'].lower(), module['module_name'].lower(), module['dashboard_data']['date_max_wind_str']))
           # rain gauge
           elif module['type'].lower() == 'namodule3':
-             print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'rain', station['station_name'].lower(), module['module_name'].lower(), module['dashboard_data']['Rain']))
-             print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'sum_rain_1', station['station_name'].lower(), module['module_name'].lower(), module['dashboard_data']['sum_rain_1']))
-             print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'sum_rain_24', station['station_name'].lower(), module['module_name'].lower(), module['dashboard_data']['sum_rain_24']))
+             print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'rain', station['home_name'].lower(), module['module_name'].lower(), module['dashboard_data']['Rain']))
+             print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'sum_rain_1', station['home_name'].lower(), module['module_name'].lower(), module['dashboard_data']['sum_rain_1']))
+             print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), 'sum_rain_24', station['home_name'].lower(), module['module_name'].lower(), module['dashboard_data']['sum_rain_24']))
           # everything else
           else:
               for type in module['data_type']:
-                  print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), type.lower(), station['station_name'].lower(), module['module_name'].lower(), module['dashboard_data'][type]))
+                  print("- netatmo.weather.{}.{}[{},{}] {}".format(module['type'].lower(), type.lower(), station['home_name'].lower(), module['module_name'].lower(), module['dashboard_data'][type]))
         #print the connected and others status as they might provide informations on why the module is not connected
-        print("- netatmo.weather.{}.connected[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['connected']))
-        print("- netatmo.weather.{}.rf_status[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['rf_status']))
-        print("- netatmo.weather.{}.battery_status[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['battery_vp']))
-        print("- netatmo.weather.{}.battery_percent[{},{}] {}".format(module['type'].lower(), station['station_name'].lower(),  module['module_name'].lower(), module['battery_percent']))
+        print("- netatmo.weather.{}.connected[{},{}] {}".format(module['type'].lower(), station['home_name'].lower(),  module['module_name'].lower(), module['connected']))
+        print("- netatmo.weather.{}.rf_status[{},{}] {}".format(module['type'].lower(), station['home_name'].lower(),  module['module_name'].lower(), module['rf_status']))
+        print("- netatmo.weather.{}.battery_status[{},{}] {}".format(module['type'].lower(), station['home_name'].lower(),  module['module_name'].lower(), module['battery_vp']))
+        print("- netatmo.weather.{}.battery_percent[{},{}] {}".format(module['type'].lower(), station['home_name'].lower(),  module['module_name'].lower(), module['battery_percent']))
   
   #Parse json for discovery and format them for zabbix-sender
   if sys.argv[1:]:
@@ -156,14 +156,14 @@ try:
       datalist_module4 = []
       for station in data['devices']:
         curdata = {}
-        curdata['{#STATION_NAME}'] = station['station_name'].lower()
+        curdata['{#STATION_NAME}'] = station['home_name'].lower()
         curdata['{#MODULE_NAME}'] = station['module_name'].lower()
         curdata['{#TEMPERATURE_UNIT}'] = unitwrapper('temperature')
         curdata['{#PRESSURE_UNIT}'] = unitwrapper('pressure')
         datalist_station.append(curdata)
         for module in station['modules']:
           curdata = {}
-          curdata['{#STATION_NAME}'] = station['station_name'].lower()
+          curdata['{#STATION_NAME}'] = station['home_name'].lower()
           curdata['{#MODULE_NAME}'] = module['module_name'].lower()
           if module['type'].lower() == 'namodule1': 
             curdata['{#TEMPERATURE_UNIT}'] = unitwrapper('temperature')
